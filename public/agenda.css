@@ -139,7 +139,7 @@ ul li.item-menu a .icon > i {
     grid-column: 1 / -1; /* Garante que o título ocupe toda a largura do grid */
 }
 
-.agenda .consulta {
+.agenda .tela +.consulta {
     display: flex;
     flex-direction: column;
     gap: 20px;
