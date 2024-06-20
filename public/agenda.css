@@ -85,6 +85,7 @@ ul li.item-menu a .icon > i {
     padding: 30px;
     width: 500px;
     align-items: center;   
+    z-index: 1000;
 }
 
 .caixa-pesquisa input {
@@ -104,44 +105,56 @@ ul li.item-menu a .icon > i {
     color: black;
 }
 
-.agenda {
+.consulta-nome {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.consulta {
+    text-align: center;
+}
+
+#agenda {
     background-color: rgb(243, 145, 178);
     border-radius: 20px;
-    width: 700px;
-    height: 600px;
+    width: 70%; 
+    margin-left: 6%; 
+    margin-top: 10%;
+    padding: 2% 2% 10% 2%;
     display: grid;
-    grid-template-rows: auto 1fr auto auto; /* Ajusta as linhas */
-    grid-template-columns: 1fr;
-    row-gap: 30px; /* Espaçamento vertical entre as linhas q só funciona quando o display eh grid*/
-    padding: 20px;
-    margin-top: 90px;
-    margin-left: 100px;
-    position: relative;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    justify-items: center;
+    height: fit-content;
 }
 
 .agenda h1 {
     color: black;
-    font-family: 'Outfit', sans-serif;
     padding: 15px;
     margin: 0;
-    grid-row: 1; /* Primeira linha */
-    justify-self: center; /* Centraliza horizontalmente */
-}
-.agenda .consulta {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 20px;
+    text-align: center;
+    grid-column: 1 / -1; /* Garante que o título ocupe toda a largura do grid */
 }
 
-.agenda .consulta .circle-img {
+.agenda .consulta {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+}
+
+.consulta .circle-img {
     width: 130px;
     height: 130px;
     border-radius: 50%;
     overflow: hidden;
 }
 
-.agenda .consulta .circle-img img {
+.consulta .circle-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -161,6 +174,7 @@ ul li.item-menu a .icon > i {
 
 .button-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
 }
 
@@ -173,7 +187,6 @@ ul li.item-menu a .icon > i {
     font-family: 'Outfit', sans-serif;
     cursor: pointer;
     font-size: 16px;
-    margin-left: 10px;
 }
 
 .button-container button:hover {
@@ -186,19 +199,6 @@ button {
     color: white;
 }
 
-.agenda .consulta .circle-img {
-    width: 130px;
-    height: 130px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.agenda .consulta .circle-img img {
-    width: 100%; /* Redimensiona a largura da imagem para preencher o círculo */
-    height: auto; /* Mantém a proporção da imagem */
-    object-fit: cover; /* Faz com que a imagem preencha o círculo mantendo sua proporção e cortando as partes excedentes */
-}
-
 .item-perfil {
     color: black;
 }
@@ -208,21 +208,24 @@ a {
 }
 
 .Sem_Consultas {
-    font-size: 20px !important; /* Ajusta o tamanho da fonte */
-    font-family:'Outfit', sans-serif;
-    color: black; /* Ajusta a cor do texto, se necessário */
-    text-align: center; /* Centraliza o texto horizontalmente */
-    margin-top: 20px; /* Adiciona um pouco de espaço no topo */
-    grid-column: 1 / -1; /* Garante que a mensagem ocupe toda a largura do grid */
-    align-self: center; /* Centraliza verticalmente */
+    font-size: 20px !important;
+    font-family: 'Outfit', sans-serif;
+    color: black;
+    text-align: center;
+    margin-top: 20px;
+    grid-column: 1 / -1;
+    align-self: center;
 }
 
 #agenda {
     transition: height 0.3s ease-in-out;
 }
 
-/*Tela Pequena*/
 @media screen and (max-width: 1020px) {
+    body{
+        height: fit-content; /*altura do body vai ser de acordo com o tamanho do conteudo dele*/
+    }
+
     .menu-lateral {
         width: 100%;
         height: auto;
@@ -239,15 +242,17 @@ a {
     }
 
     .caixa-pesquisa {
-        position: relative;
+        position: inherit;
         margin-left: 0%;
         width: 100%;
         justify-content: center;
         padding: 10px 10px 0px 80px;
     }
+
     .caixa-pesquisa input {
         width: 80%;
     }
+
     .icon-pesquisa {
         margin: 0 5px;
     }
@@ -257,19 +262,44 @@ a {
         margin-top: 10px;
         margin-left: 85px;
     }
+}
 
-    /*tentativa de deixar o bloquinho rosa resposivo*/
-    .agenda {
+@media screen and (max-width: 768px) {
+    body {
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #agenda {
+        grid-template-columns: 1fr;
+        width: 85%;
+        margin: 8% 1% 15% 8%;
+        height: auto !important;
+        min-height: fit-content !important;
+        gap: 45px; /* Espaçamento entre os itens */
+    }
+
+    .consulta {
         width: 100%;
-        margin: 5;
-        padding: 10px 10px 10px 30px;
+    }
+
+    .caixa-pesquisa input {
+        width: 80%; 
+        margin-top: 5px;
+        left: auto;
+    }
+
+    .perfil {
+        position: auto;
+        top: 10px;
+        right: 20px;
+        left: 10px;
+        margin-top: 20px;
     }
 }
 
-/*Tela Grande*/
 @media screen and (min-width: 1021px) {
-
-    /* Menu lateral na lateral */
     nav.menu-lateal {
         position: flex;
         left: 0;
@@ -279,7 +309,6 @@ a {
         padding: 20px;
     }
 
-    /* Ajustar posição da barra de pesquisa */
     .caixa-pesquisa {
         position: absolute;
         top: 5%;
@@ -287,15 +316,21 @@ a {
         transform: translate(-50%, -50%);
     }
 
-    /* Alinhar perfil no canto superior direito */
     .perfil {
         position: fixed;
         top: 20px;
         right: 20px;
     }
 
-    /* Ajustar margem à direita do conteúdo principal */
     .media {
-        margin-left: 250px; /* Largura do menu lateral */
+        margin-left: 250px;
+    }
+
+    .consulta-nome {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        width: 100%;
+        justify-content: center;
     }
 }

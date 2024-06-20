@@ -83,3 +83,12 @@ function ajustarTamanhoBlocoRosa() {
     // Ajusta o tamanho do bloco rosa quando a página é carregada
     ajustarTamanhoBlocoRosa();
 });
+
+fetch('http://localhost:3000/agenda')
+.then(res => res.json() )
+ .then(data => {
+  console.log(data);
+   document.getElementById('nome').src = data.nome;
+   document.getElementById('especialidade').src = data.especialidade;
+   document.getElementById('image').src = data.image;
+})
