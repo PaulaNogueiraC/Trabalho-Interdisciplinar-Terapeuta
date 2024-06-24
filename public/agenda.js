@@ -3,49 +3,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const telaContainer = document.getElementById('tela');
     let todasAsConsultas = [];
 
-    fetch('http://localhost:3000/agenda')
-        .then(res => res.json())
-        .then(data => {
-            let tela = '<h1>Consultas Marcadas</h1>';
-            todasAsConsultas = data;
-            console.log(todasAsConsultas);
-            for(let i = 0; i < data.length; i++)
-            {
-                let consulta = data[i];
-                tela += `
-            <div class="consulta" data-consulta-id="${i+1}">
-                <div class="circle-img">
-                    <img src="${consulta.image}" alt="Foto de ${consulta.nome}" width="130px">
-                </div>
-                <div class="info">
-                    <h2 class="nome">${consulta.nome}</h2>
-                    <p class="especialidade">${consulta.especialidade}</p>
-                </div>
-                <div class="button-container">
-                    <button class="desmarcar-btn" id="${i+1}">Desmarcar Consulta</button> 
-                </div>
-            </div>;`
-            }
-            document.getElementById('agenda').innerHTML = tela;
-            document.querySelectorAll('.desmarcar-btn').forEach(button => {
-                button.addEventListener('click', () => {
-                    let botaoId = button.id; 
-                    desmarcarConsulta(botaoId); 
-                });
+    function carregarConsultas(consultas) {
+        let tela = '<h1>Consultas Marcadas</h1>';
+        for(let i = 0; i < consultas.length; i++)
+        {
+            let consulta = consultas[i];
+            tela += `
+        <div class="consulta" data-consulta-id="${i+1}">
+            <div class="circle-img">
+                <img src="${consulta.image}" alt="Foto de ${consulta.nome}" width="130px">
+            </div>
+            <div class="info">
+                <h2 class="nome">${consulta.nome}</h2>
+                <p class="especialidade">${consulta.especialidade}</p>
+            </div>
+            <div class="button-container">
+                <button class="desmarcar-btn" id="${consulta.id}">Desmarcar Consulta</button> 
+            </div>
+        </div>`
+        }
+        document.getElementById('agenda').innerHTML = tela;
+        document.querySelectorAll('.desmarcar-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                let botaoId = button.id; 
+                desmarcarConsulta(botaoId); 
             });
         });
+    }
 
+    function carregarConsultasJSON() {
+        fetch('http://localhost:3000/agenda')
+        .then(res => res.json())
+        .then(data => {
+            todasAsConsultas = data;
+            carregarConsultas(todasAsConsultas)
+        });
+    }
+
+    const input = document.querySelector(".caixa-pesquisa input")
+    
+    input.addEventListener("input", (event) => {
+        const consultasFiltradas = todasAsConsultas.filter(consulta => consulta.nome.toLowerCase().startsWith(event.target.value))
+        carregarConsultas(consultasFiltradas)
+    })
 
     function desmarcarConsulta(botaoId) {
-        console.log(botaoId);
-        var consultaDiv = document.querySelector(`.consulta[data-consulta-id="${botaoId}"]`);
-        consultaDiv.style.display = "none";
-        showSuccessPopup();
+        const url = `http://localhost:3000/agenda/${botaoId}`
+        fetch(url, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any additional headers if necessary, such as authorization tokens
+            },
+        }).then((res) => {
+            if (!res.ok) {
+                throw new Erro("Não foi possivel desmarcar a consulta")
+            }
+            var consultaDiv = document.querySelector(`.consulta[data-consulta-id="${botaoId}"]`);
+            consultaDiv.style.display = "none";
+            showSuccessPopup();
+            todasAsConsultas[botaoId-1] = null;
+        }).catch((err) => {
+            alert(err)
+        })
+        console.log(todasAsConsultas);
     }
 
     function showSuccessPopup() {
         alert("Consulta desmarcada!");
     }
+
+    
 
     function mostrarMensagemSemConsulta() {
         telaContainer.innerHTML = '<p class="Sem_Consultas">Nenhuma consulta agendada!</p>';
@@ -199,4 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
             recolherMenuLateral();
         }
     });
+
+    carregarConsultasJSON()
 });

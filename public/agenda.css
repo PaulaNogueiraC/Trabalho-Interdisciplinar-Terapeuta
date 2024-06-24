@@ -2,7 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-size: 'Outfit', sans-serif;
+    font-family: 'Outfit', sans-serif;
 }
 
 body {
@@ -105,16 +105,11 @@ ul li.item-menu a .icon > i {
     color: black;
 }
 
-.consulta-nome {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
-}
-
 .consulta {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #agenda {
@@ -125,10 +120,8 @@ ul li.item-menu a .icon > i {
     margin-top: 10%;
     padding: 2% 2% 10% 2%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 30px;
-    justify-items: center;
-    height: fit-content;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
 }
 
 .agenda h1 {
@@ -136,15 +129,7 @@ ul li.item-menu a .icon > i {
     padding: 15px;
     margin: 0;
     text-align: center;
-    grid-column: 1 / -1; /* Garante que o título ocupe toda a largura do grid */
-}
-
-.agenda .tela +.consulta {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-    text-align: center;
+    grid-column: 1 / -1;
 }
 
 .consulta .circle-img {
@@ -152,6 +137,7 @@ ul li.item-menu a .icon > i {
     height: 130px;
     border-radius: 50%;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .consulta .circle-img img {
@@ -222,8 +208,8 @@ a {
 }
 
 @media screen and (max-width: 1020px) {
-    body{
-        height: fit-content; /*altura do body vai ser de acordo com o tamanho do conteudo dele*/
+    body {
+        height: fit-content;
     }
 
     .menu-lateral {
@@ -277,7 +263,7 @@ a {
         margin: 8% 1% 15% 8%;
         height: auto !important;
         min-height: fit-content !important;
-        gap: 45px; /* Espaçamento entre os itens */
+        gap: 45px;
     }
 
     .consulta {
